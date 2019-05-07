@@ -1,0 +1,52 @@
+<svg:svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <marker viewBox="0 0 100 100" id="se_marker_start_svg_1" refY="50" markerUnits="strokeWidth" markerWidth="5" markerHeight="5" orient="auto" refX="50">
+   <path id="svg_2" stroke-width="10" d="m54,51l45,39l-31,-40l31,-40l-45,41z" fill="#0070c0" stroke="#0070c0"/>
+  </marker>
+  <marker viewBox="0 0 100 100" id="se_marker_end_svg_1" refY="50" markerUnits="strokeWidth" markerWidth="5" markerHeight="5" orient="auto" refX="50">
+   <path id="svg_5" stroke-width="10" d="m48,48l-50,42l30,-40l-30,-40l50,38z" fill="#0070c0" stroke="#0070c0"/>
+  </marker>
+  <marker viewBox="-1 -50 100 100" id="se_marker_mid_svg_3" refY="50" markerUnits="strokeWidth" markerWidth="25" markerHeight="10" orient="359.50395">
+   <text id="svg_6" fill="#d40000" xml:space="preserve" text-anchor="left" font-family="serif" font-size="50" stroke="#000000" stroke-width="0" y="35" x="-20"/>
+  </marker>
+  <path opacity="0.5" d="m113.33334,234.66667c0,0 180.00003,0 180.00003,0c0,0 -86.66669,-181.33334 -86.66669,-181.33334c0,0 -93.33334,181.33334 -93.33334,181.33334z" id="se_def_pathtrianglecount_svg_1"/>
+ </defs>
+ <g>
+  <title>Main Layers</title>
+ </g>
+ <g>
+  <title>Main Layers1</title>
+  <polyline points="82.68340020935683,278.89150165592025 98.73106639884574,278.7525608231108 114.77873258833463,278.6136199903014" stroke="#0070c0" stroke-width="1.5" fill="none" id="svg_3" opacity="0.5" marker-start="url(#se_marker_start_svg_1)" marker-end="url(#se_marker_end_svg_1)" marker-mid="url(#se_marker_mid_svg_3)"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+ </g>
+ <g>
+  <title>Area - standard46115</title>
+  <path fill="#00FFFF" stroke="#00FFFF" stroke-width="0.1" stroke-opacity="0.5" fill-opacity="0.5" opacity="0.5" d="m212.46237,145.20781l-0.56247,-83.52624l79.58898,0.56247l0,82.68254l0,0l-0.56247,31.49811l-78.18281,1.40617l0,0" id="svg_4" layerid="42301"/>
+ </g>
+ <g>
+  <title>Linear46116</title>
+  <path fill="#00FFFF" stroke="#0000FF" stroke-width="7.46431" stroke-opacity="0.5" fill-opacity="0" opacity="0.5" d="m136.81065,145.48905l0,-80.99514l41.90374,-0.8437l-0.56247,82.68254l0,0" id="svg_7"/>
+  <g id="svg_7Linear">
+   <rect id="svg_15" fill="#FFFFFF" stroke-width="0" height="3.42188" width="17.3125" y="102.76563" x="157.75"/>
+   <text fill="#000000" xml:space="preserve" text-anchor="left" font-family="serif" font-size="3" stroke="#000000" stroke-width="0" opacity="2" y="104.99147" id="svg_8">
+    <tspan x="157.76252" dy="0.2em" id="svg_9">3 Ply @ 50.23</tspan>
+   </text>
+  </g>
+ </g>
+ <g>
+  <title>Test Count1146117</title>
+  <use xlink:href="#se_def_pathtrianglecount_svg_1" id="svg_10" fill="#FF1493" transform="translate(190.295166015625,102.26551818847656) scale(0.05318322777748108) " stroke-width="0.1"/>
+  <use xlink:href="#se_def_pathtrianglecount_svg_1" id="svg_11" fill="#FF1493" transform="translate(186.35789489746094,120.54566955566406) scale(0.05318322777748108) " stroke-width="0.1"/>
+  <use xlink:href="#se_def_pathtrianglecount_svg_1" id="svg_12" fill="#FF1493" transform="translate(179.60830688476562,144.16925048828125) scale(0.05318322777748108) " stroke-width="0.1"/>
+  <use xlink:href="#se_def_pathtrianglecount_svg_1" id="svg_13" fill="#FF1493" transform="translate(188.04530334472656,154.01242065429688) scale(0.05318322777748108) " stroke-width="0.1"/>
+  <use xlink:href="#se_def_pathtrianglecount_svg_1" id="svg_14" fill="#FF1493" transform="translate(193.95118713378906,141.07568359375) scale(0.05318322777748108) " stroke-width="0.1"/>
+  <line x1="149.37258" y1="113.42847" x2="640" y2="113.42847" id="HorizontalLineCursorbottom" stroke-width="0.5" stroke="#000000" fill="none"/>
+  <line x1="0" y1="113.42847" x2="143.37258" y2="113.42847" id="HorizontalLineCursortop" stroke-width="0.5" stroke="#000000" fill="none"/>
+  <line x1="146.37258" y1="116.42847" x2="146.37258" y2="480" id="VerticalLineCursorbottom" stroke-width="0.5" stroke="#000000" fill="none"/>
+  <line x1="146.37258" y1="0" x2="146.37258" y2="110.42847" id="VerticalLineCursortop" stroke-width="0.5" stroke="#000000" fill="none"/>
+ </g>
+
+</svg:svg>
