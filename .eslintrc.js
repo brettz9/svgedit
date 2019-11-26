@@ -170,7 +170,9 @@ module.exports = {
     },
     {
       extends: ['plugin:node/recommended-script'],
-      files: ['cypress/support/build-coverage-badge.js']
+      files: [
+        'license-check.js'
+      ]
     },
     {
       files: ["cypress/**"],

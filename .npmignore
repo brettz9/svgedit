@@ -4,6 +4,7 @@ screencasts
 .github/ISSUE_TEMPLATE/bug_report.md
 build
 lgtm.yml
+license-check.js
 
 cypress/**
 cypress.env.json
