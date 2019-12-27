@@ -7,8 +7,19 @@
  * @copyright 2013 Jo Segaert
  *
  */
-// Todo: Wait for Mathjax 3.0 to get ES Module/avoid global
-import {importScript} from '../external/dynamic-import-polyfill/importModule.js';
+
+// import {importSetGlobalDefault} from '../external/dynamic-import-polyfill/importModule.js';
+
+(async () => {
+window.global = window; // Avoid error; setting to `window.global = window;` reported more errors
+window.global.__dirname = '';
+await import(
+  '/node_modules/mathjax-full/js/mathjax.js'
+);
+await import(
+  './mathjax/entry.js'
+);
+})();
 
 export default {
   name: 'mathjax',
@@ -45,7 +56,8 @@ export default {
       // mathjaxSrc = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
       // Had been on https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG.js
       // Obtained Text-AMS-MML_SVG.js from https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.3/config/TeX-AMS-MML_SVG.js
-      mathjaxSrcSecure = 'mathjax/MathJax.min.js?config=TeX-AMS-MML_SVG.js',
+      mathjaxSrcSecure = '../../node_modules/mathjax-full/js/mathjax.js?config=TeX-AMS-MML_SVG.js',
+      // mathjaxSrcSecure = '/node_modules/mathjax-full/js/mathjax.js',
       {uiStrings} = svgEditor;
     let
       math,
@@ -59,8 +71,8 @@ export default {
       mathjax: {
         embed_svg: 'Save as mathematics',
         embed_mathml: 'Save as figure',
-        svg_save_warning: 'The math will be transformed into a figure is manipulatable like everything else. You will not be able to manipulate the TeX-code anymore. ',
-        mathml_save_warning: 'Advised. The math will be saved as a figure.',
+        svg_save_warning: 'The math will be transformed into a figure that is manipulatable like everything else. You will not be able to manipulate the TeX-code anymore.',
+        mathml_save_warning: 'Be advised. The math will be saved as a figure.',
         title: 'Mathematics code editor'
       }
     });
@@ -73,7 +85,7 @@ export default {
       const code = $('#mathjax_code_textarea').val();
       // displaystyle to force MathJax NOT to use the inline style. Because it is
       // less fancy!
-      MathJax.Hub.queue.Push(['Text', math, '\\displaystyle{' + code + '}']);
+      // MathJax.Hub.Queue(['Text', math, '\\displaystyle{' + code + '}']);
 
       /*
        * The MathJax library doesn't want to bloat your webpage so it creates
@@ -87,10 +99,14 @@ export default {
        * to your formula's `<svg>` and copy the lot. So we have to replace each
        * `<use>` tag by its `<path>`.
        */
-      MathJax.Hub.queue.Push(
+      MathJax.Hub.Queue(
         function () {
-          const mathjaxMath = $('.MathJax_SVG');
-          const svg = $(mathjaxMath.html());
+          // const mathjaxMath = $('.MathJax_SVG');
+          // const svg = $(mathjaxMath.html());
+          let svg = $('#mathjax_creator').find('svg');
+          console.log('svg1', svg);
+          svg = $(svg[0].outerHTML);
+          console.log('svg2', svg);
           svg.find('use').each(function () {
             // TODO: find a less pragmatic and more elegant solution to this.
             const id = $(this).attr('href')
@@ -112,6 +128,7 @@ export default {
           // Remove the style tag because it interferes with SVG-Edit.
           svg.removeAttr('style');
           svg.attr('xmlns', 'http://www.w3.org/2000/svg');
+          console.log('html', $('<div>').append(svg.clone()).html());
           svgCanvas.importSvgString($('<div>').append(svg.clone()).html(), true);
           svgCanvas.ungroupSelectedElement();
           // TODO: To undo the adding of the Formula you now have to undo twice.
@@ -200,15 +217,90 @@ export default {
             // We use `extIconsPath` here for now as it does not vary with
             //  the modular type as does `extPath`
             try {
-              await importScript(svgEditor.curConfig.extIconsPath + mathjaxSrcSecure);
+              // window.global = {}; // Avoid error; setting to `window.global = window;` reported more errors
+
+              /*
+              (await importSetGlobalDefault(
+                svgEditor.curConfig.extIconsPath.replace(/extensions\/$/, '') + mathjaxSrcSecure, {
+                  global: 'mathjax1'
+                }
+              ));
+              console.log('aaa', svgEditor.curConfig.extIconsPath + 'mathjax/entry.js');
+              (await importSetGlobalDefault(
+                svgEditor.curConfig.extIconsPath + '../../node_modules/mathjax-full/components/src/tex-mml-svg/tex-mml-svg.js', {
+                // './' + svgEditor.curConfig.extIconsPath.replace(/extensions\/$/, '') + '/mathjax/entry.js'
+                  global: 'texSvg1'
+                }
+              ));
+              */
+              /**
+              * Add a replacement for MathJax.Callback command
+              * From http://docs.mathjax.org/en/latest/upgrading/v2.html.
+              * @param {GenericArray|function} args
+              * @todo Use more specific types than `GenericArray` and `function` here
+              * @returns {function}
+              */
+              MathJax.Callback = function (args) {
+                if (Array.isArray(args)) {
+                  if (args.length === 1 && typeof args[0] === 'function') {
+                    return args[0];
+                  } else if (typeof args[0] === 'string' &&
+                    args[1] && typeof args[1] === 'object' &&
+                    typeof args[1][args[0]] === 'function'
+                  ) {
+                    return Function.bind.apply(args[1][args[0]], args.slice(1));
+                  } else if (typeof args[0] === 'function') {
+                    return Function.bind.apply(args[0], [window].concat(args.slice(1)));
+                  } else if (typeof args[1] === 'function') {
+                    return Function.bind.apply(args[1], [args[0]].concat(args.slice(2)));
+                  }
+                } else if (typeof args === 'function') {
+                  return args;
+                }
+                console.log('args', args);
+                throw new Error("Can't make callback from given data");
+              };
+
+              // Adapted from https://groups.google.com/forum/#!topic/mathjax-users/v2v7uKbd6tQ
+              MathJax.getAllJax = function (sel) {
+                console.log('MathJax.startup.document.math', MathJax.startup.document.math);
+                const list = Array.from(MathJax.startup.document.math);
+                if (!sel) return list;
+                const container = document.querySelector(sel);
+                if (!container) return list;
+                return list.filter((node) => {
+                  return container.contains(node.start.node);
+                });
+              };
+              MathJax.startup.defaultReady();
+
+              MathJax.Hub = {
+                Queue (...args) {
+                  for (const arg of args) {
+                    const fn = MathJax.Callback(arg);
+                    console.log('MathJax', MathJax);
+                    // eslint-disable-next-line promise/prefer-await-to-then
+                    MathJax.startup.promise = MathJax.startup.promise.then(fn);
+                  }
+                  return MathJax.startup.promise;
+                }
+              };
+              //
+              //  Warn about x-mathjax-config scripts
+              //
+              if (document.querySelector('script[type="text/x-mathjax-config"]')) {
+                throw new Error('x-mathjax-config scripts should be converted to MathJax global variable');
+              }
+
               // When MathJax is loaded get the div where the math will be rendered.
-              MathJax.Hub.queue.Push(function () {
-                math = MathJax.Hub.getAllJax('#mathjax_creator')[0];
-                console.log(math); // eslint-disable-line no-console
+              MathJax.Hub.Queue(function () {
+                math = MathJax.getAllJax('#mathjax_creator')[0];
+                console.log('mmm', math); // eslint-disable-line no-console
                 mathjaxLoaded = true;
                 console.log('MathJax Loaded'); // eslint-disable-line no-console
               });
             } catch (e) {
+              console.log('Error', e); // eslint-disable-line no-console
               console.log('Failed loading MathJax.'); // eslint-disable-line no-console
               $.alert('Failed loading MathJax. You will not be able to change the mathematics.');
             }

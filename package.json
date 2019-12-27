@@ -59,6 +59,7 @@
     "build-html": "babel-node --plugins @babel/plugin-transform-modules-commonjs build/build-html.js",
     "eslint-fix": "eslint --fix --ext js,md,html .",
     "eslint": "eslint --ext js,md,html .",
+    "mathjax": "cd node_modules/mathjax-full && npm run compile -- --module es6",
     "rollup": "rollup -c",
 
     "build-by-config": "rollup -c rollup-config.config.js",
@@ -186,6 +187,7 @@
     "jsdoc": "^3.6.3",
     "license-badger": "^0.9.3",
     "load-stylesheets": "^0.9.0",
+    "mathjax-full": "^3.0.0",
     "mocha": "^7.0.1",
     "mocha-badge-generator": "git+https://github.com/brettz9/mocha-badge-generator.git#makeBadge",
     "mochawesome": "^4.1.0",
